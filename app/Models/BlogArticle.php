@@ -68,6 +68,12 @@ class BlogArticle extends Model
             $photo = Photo::findOrFail($match);
             $content = str_replace("[[photo:$match]]", view('slideshow.photo-embed', compact('photo'))->render(), $content);
         }
+        // find tags like [[audio:1]] and replace them with the actual audio fragment
+        preg_match_all('/\[\[audio:(\d+)\]\]/', $content, $matches);
+        foreach ($matches[1] as $match) {
+            $audioFragment = AudioFragment::findOrFail($match);
+            $content = str_replace("[[audio:$match]]", view('slideshow.audio-embed', compact('audioFragment'))->render(), $content);
+        }
         return $content;
     }
 }
