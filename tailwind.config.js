@@ -11,6 +11,9 @@ export default {
                 sans: ["Merriweather", "sans-serif"],
                 title: ["Rubik Mono One", "sans-serif"],
             },
+            spacing: {
+                150: "150px",
+            },
         },
     },
     plugins: [require("@tailwindcss/typography")],

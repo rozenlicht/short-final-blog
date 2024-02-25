@@ -43,6 +43,7 @@ class BlogArticleResource extends Resource
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->maxLength(65535)
+                    ->helperText('Use tags [[audio:1]], [[photo:1]], [[slideshow:1]]')
                     ->columnSpanFull(),
                 Select::make('photo_id')
                     ->relationship(name: 'photo', titleAttribute: 'caption'),

@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
+@section('title')
+    <title>{{ $blog_article->title }} - Een artikel op Short Final</title>
+    <meta property="og:title" content="{{ $blog_article->title }} - Een artikel op Short Final">
+@endsection
+
+@section('ogImage')
+    <meta property="og:image" content="{{ Storage::url($blog_article->photo->path) }}">
+@endsection
+
 @section('description')
-    <meta name="description" content="{{ $blog_article->subtitle }}">
+    <meta name="description"
+        content="{{ $blog_article->subtitle }}. Een vlucht op  {{ \Carbon\Carbon::parse($blog_article->flight_date)->translatedFormat('d F Y') }}.">
 @endsection
 
 @section('keywords')
@@ -10,7 +20,7 @@
 @endsection
 
 @section('content')
-    <div class="prose w-full mx-auto shadow-lg rounded-xl mb-12 bg-white mt-10 overflow-hidden">
+    <div class="prose w-full mx-auto lg:shadow-xl lg:rounded-xl bg-white mt-16 lg:mt-150 overflow-hidden">
         @if ($blog_article->photo)
             <div
                 style="width: 100%; height: 300px; background-image: url('{{ Storage::url($blog_article->photo->path) }}'); background-size: cover; background-position: center;">

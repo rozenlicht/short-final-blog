@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PhotoResource\Pages;
-use App\Filament\Resources\PhotoResource\RelationManagers;
-use App\Models\Photo;
+use App\Filament\Resources\AudioFragmentResource\Pages;
+use App\Filament\Resources\AudioFragmentResource\RelationManagers;
+use App\Models\AudioFragment;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PhotoResource extends Resource
+class AudioFragmentResource extends Resource
 {
-    protected static ?string $model = Photo::class;
+    protected static ?string $model = AudioFragment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,14 +23,14 @@ class PhotoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('path')
-                    ->image()
-                    ->disk('s3')
-                    ->directory('photos')
-                    ->visibility('public')
-                    ->required(),
-                Forms\Components\TextInput::make('caption')
+                Forms\Components\TextInput::make('name')
+                    ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('path')
+                    ->acceptedFileTypes(['audio/*'])
+                    ->directory('audio')
+                    ->disk('s3')
+                    ->required()
             ]);
     }
 
@@ -38,11 +38,9 @@ class PhotoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('path')
-                    ->disk('s3')
-                    ->size('100px')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('caption')
+                Tables\Columns\TextColumn::make('path')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -57,6 +55,7 @@ class PhotoResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -76,9 +75,10 @@ class PhotoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPhotos::route('/'),
-            'create' => Pages\CreatePhoto::route('/create'),
-            'edit' => Pages\EditPhoto::route('/{record}/edit'),
+            'index' => Pages\ListAudioFragments::route('/'),
+            'create' => Pages\CreateAudioFragment::route('/create'),
+            'view' => Pages\ViewAudioFragment::route('/{record}'),
+            'edit' => Pages\EditAudioFragment::route('/{record}/edit'),
         ];
     }
 }

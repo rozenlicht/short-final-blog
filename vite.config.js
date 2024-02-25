@@ -8,15 +8,15 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    // server: {
-    //     host: "0.0.0.0",
-    //     port: 5179,
-    //     strictPort: true,
-    //     https: false,
-    //     hmr: {
-    //         protocol: "wss",
-    //         host: "short-final.ddev.local",
-    //         clientPort: 5179,
-    //     },
-    // },
+    server: {
+        host: "0.0.0.0",
+        port: 5179,
+        strictPort: true,
+        https: false,
+        hmr: {
+            protocol: "wss",
+            host: "short-final.ddev.local",
+            clientPort: 5179,
+        },
+    },
 });
